@@ -18,6 +18,9 @@
       
       <product-display :premium="premium" @add-to-cart="updateCart"></product-display>
       <product-display1 :premium="premium" @add-to-cart="updateCart"></product-display1>
+      <product-display2 :premium="premium" @add-to-cart="updateCart"></product-display2>
+      <product-display3 :premium="premium" @add-to-cart="updateCart"></product-display3>
+      <product-display4 :premium="premium" @add-to-cart="updateCart"></product-display4>
       <review-list v-if="reviews.length" :reviews="reviews"></review-list>
       <review-form @review-submitted="addReview"></review-form>
     </div>
@@ -28,6 +31,9 @@
     <!-- Import Components -->
     <script src="./components/ProductDisplay.js"></script>
     <script src="./components/ProductDisplay1.js"></script>
+    <script src="./components/ProductDisplay2.js"></script>
+    <script src="./components/ProductDisplay3.js"></script>
+    <script src="./components/ProductDisplay4.js"></script>
     <script src="./components/ReviewForm.js"></script>
     <script src="./components/ReviewList.js"></script>
 

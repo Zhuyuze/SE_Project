@@ -82,7 +82,8 @@ func sign_up(username string, password string) string {
 
 		id, err := res.LastInsertId()
 		checkErr(err)
-		return string(id) + "successs"
+		fmt.Println(id)
+		return "successs"
 	}
 }
 

@@ -27,3 +27,21 @@ demo video is [here](https://github.com/Zhuyuze/SE_Project/blob/main/frond-end/f
 Corresponding functions are finished, including dish info storage, showing cart info, make and retrieve reviews.
 
 demo video is [here](https://github.com/Zhuyuze/SE_Project/blob/main/back-end/sprint1_backend.mp4)
+
+
+
+
+
+
+
+### Sprint 2
+
+#### Front-end
+
+CRUD and ordering pages are complete with integrated back end including database 
+Unit test complete with mocha
+
+#### Back-end
+
+Ordering and CRUD function complete with connection to database
+Unit test complete with testing module

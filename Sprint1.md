@@ -1,3 +1,17 @@
+This is the group project for Software Engineering
+
+Group Members are:
+
+Yuze Zhu
+
+Hongri Yan
+
+Yankun Han
+
+Jiahui He
+
+
+
 ### Sprint 1
 
 We are making an online ordering system.

@@ -17,6 +17,10 @@ console.log(password)
 const url="http://127.0.0.1:8080/sign_in/"+username+"/"+password;
 Http.onload=function(){
     console.log(Http.responseText)
+    if(Http.responseText=="Hello Success")
+    {
+        location.href="gouwu.html"
+    }
 }
 
 Http.open("GET",url,true);

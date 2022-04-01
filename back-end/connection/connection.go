@@ -53,6 +53,16 @@ func main() {
 		c.String(http.StatusOK, "%s", message)
 	})
 
+	r.GET("/get_num/:username", func(c *gin.Context) {
+		username := c.Param("username")
+		message := prev_orders(username)
+		c.String(http.StatusOK, "%d", message)
+	})
+	r.GET("/order_food/:username", func(c *gin.Context) {
+		username := c.Param("username")
+		message := order_food(username)
+		c.String(http.StatusOK, "%d", message)
+	})
 	r.Run(":8080") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 
 }
@@ -62,7 +72,7 @@ func sign_up(username string, password string) string {
 	checkErr(err)
 
 	// see if the username already exists
-	rows, err := db.Query("SELECT username FROM userinfo where username=" + "'" + username + "'")
+	rows, err := db.Query("SELECT * FROM userinfo where username=" + "'" + username + "'")
 	//checkErr(err)
 	fmt.Println(rows.Next())
 	if err != nil {
@@ -162,4 +172,36 @@ func order(username string, food string, quantity int) string {
 		fmt.Println(affect)
 	}
 	return "successfully ordered"
+}
+
+func prev_orders(username string) int {
+	db, err := sql.Open("sqlite3", "CRUDtest.db")
+	//db.SetMaxOpenConns(1)
+	checkErr(err)
+	rows, err := db.Query("SELECT quantity from orders where username='" + username + "'")
+	checkErr(err)
+	count := 0
+	if !rows.Next() {
+		return 0
+	} else {
+		rows, err := db.Query("SELECT quantity from orders where username='" + username + "'")
+		checkErr(err)
+		for rows.Next() {
+			count = count + 1
+		}
+	}
+	return count
+}
+
+func order_food(username string) string {
+	db, err := sql.Open("sqlite3", "CRUDtest.db")
+	//db.SetMaxOpenConns(1)
+	checkErr(err)
+	stmt, err := db.Prepare("INSERT INTO orders(username, food_name,quantity) values(?,?,?)")
+	res, err := stmt.Exec(username, "Spareribs with brown sauce", 1)
+	stmt, err = db.Prepare("INSERT INTO orders(username, food_name,quantity) values(?,?,?)")
+	res, err = stmt.Exec(username, "Braised pork in brown sauce", 1)
+	checkErr(err)
+	fmt.Println(res)
+	return "Success"
 }

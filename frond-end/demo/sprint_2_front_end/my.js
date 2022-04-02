@@ -16,5 +16,5 @@ const cart=document.getElementById("cart")
 
 cart.addEventListener("click",()=>{
     location.href="gouwu.html?obj="+username;
-
+    
     ;})

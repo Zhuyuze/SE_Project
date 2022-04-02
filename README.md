@@ -2,13 +2,13 @@ This is the group project for Software Engineering
 
 Group Members are:
 
-Yuze Zhu
+Yuze Zhu front end
 
-Hongri Yan
+Hongri Yan back end
 
-Yankun Han
+Yankun Han front end
 
-Jiahui He
+Jiahui He back end
 
 
 

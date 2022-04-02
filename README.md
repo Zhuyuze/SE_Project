@@ -50,6 +50,15 @@ Unit test complete with testing module
 
 ### Sprint 3
 
+To Run:
+
+
+1.Run the connection.go file with golang enviroment
+
+
+2.Open login.html file with Chrome
+
+
 #### Front-end
 
 Customer page and cart page complete
@@ -58,3 +67,5 @@ Customer page and cart page complete
 
 Adding cart and personal page code for back end
 query from database and respond to front end request
+
+

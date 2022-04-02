@@ -45,3 +45,16 @@ Unit test complete with mocha
 
 Ordering and CRUD function complete with connection to database
 Unit test complete with testing module
+
+
+
+### Sprint 3
+
+#### Front-end
+
+Customer page and cart page complete
+
+#### Back-end
+
+Adding cart and personal page code for back end
+query from database and respond to front end request

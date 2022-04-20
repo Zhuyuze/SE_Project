@@ -13,10 +13,11 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+var global_username string
+
 func main() {
 	r := gin.Default()
 	r.Use(cors.Default())
-
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "pong",
@@ -30,7 +31,10 @@ func main() {
 	r.GET("/haha", func(c *gin.Context) {
 		c.String(http.StatusOK, "hahahahha")
 	})
-
+	r.GET("/get_info", func(c *gin.Context) {
+		name, usertype := user_info()
+		c.String(http.StatusOK, name)
+	})
 	r.GET("/sign_in/:username/:password", func(c *gin.Context) {
 		username := c.Param("username")
 		password := c.Param("password")
@@ -120,6 +124,7 @@ func sign_in(username string, password string) string {
 		if temp2 != password {
 			return "Wrong password"
 		} else {
+			global_username = username
 			return "Success"
 		}
 	}
@@ -204,4 +209,20 @@ func order_food(username string) string {
 	checkErr(err)
 	fmt.Println(res)
 	return "Success"
+}
+
+func user_info() (string, string) {
+	if global_username == "" {
+		return "please login first", "plz"
+	}
+	db, err := sql.Open("sqlite3", "CRUDtest.db")
+	checkErr(err)
+	rows, err := db.Query("SELECT username,password FROM userinfo where username=" + "'" + global_username + "'")
+	var temp1 string
+	var temp2 string
+	var temp3 string
+	var temp4 string
+	err = rows.Scan(&temp1, &temp2, &temp3, &temp4)
+	checkErr(err)
+	return global_username, temp4
 }

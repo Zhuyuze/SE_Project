@@ -24,7 +24,7 @@ func Test_sign_in2(t *testing.T) {
 
 func Test_sign_in3(t *testing.T) {
 	var (
-		expected = "Wrong username or password"
+		expected = "Wrong password"
 	)
 	actual := sign_in("roman", "1")
 	if actual != expected {
@@ -52,21 +52,22 @@ func Test_sign_up2(t *testing.T) {
 	}
 }
 
-func Test_prev_order1(t *testing.T) {
-	var (
-		expected = 28
-	)
-	actual := prev_orders("Roman")
-	if actual != expected {
-		t.Errorf("actual=%d; expected %d", actual, expected)
-	}
-}
-
 func Test_order_food1(t *testing.T) {
 	var (
 		expected = "Success"
 	)
 	actual := order_food("Roman")
+	if actual != expected {
+		t.Errorf("actual=%s; expected %s", actual, expected)
+	}
+}
+
+func Test_get_info(t *testing.T) {
+	var (
+		expected = "Roman"
+	)
+	sign_in("Roman", "11")
+	actual := user_info()
 	if actual != expected {
 		t.Errorf("actual=%s; expected %s", actual, expected)
 	}

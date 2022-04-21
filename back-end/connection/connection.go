@@ -5,7 +5,6 @@ import (
 
 	"database/sql"
 	"fmt"
-	"strconv"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -32,7 +31,7 @@ func main() {
 		c.String(http.StatusOK, "hahahahha")
 	})
 	r.GET("/get_info", func(c *gin.Context) {
-		name, usertype := user_info()
+		name := user_info()
 		c.String(http.StatusOK, name)
 	})
 	r.GET("/sign_in/:username/:password", func(c *gin.Context) {
@@ -48,18 +47,14 @@ func main() {
 		message := sign_up(username, password)
 		c.String(http.StatusOK, "%s", message)
 	})
-	r.GET("/order/:username/:food/:quantity", func(c *gin.Context) {
-		username := c.Param("username")
-		food := c.Param("food")
-		quantity, err := strconv.Atoi(c.Param("quantity"))
-		checkErr(err)
-		message := order(username, food, quantity)
+	r.GET("/order", func(c *gin.Context) {
+
+		message := order()
 		c.String(http.StatusOK, "%s", message)
 	})
 
-	r.GET("/get_num/:username", func(c *gin.Context) {
-		username := c.Param("username")
-		message := prev_orders(username)
+	r.GET("/get_num", func(c *gin.Context) {
+		message := prev_orders()
 		c.String(http.StatusOK, "%d", message)
 	})
 	r.GET("/order_food/:username", func(c *gin.Context) {
@@ -131,65 +126,36 @@ func sign_in(username string, password string) string {
 	return "Username Doesnt exist"
 }
 
-func order(username string, food string, quantity int) string {
+func order() string {
 	db, err := sql.Open("sqlite3", "CRUDtest.db")
 	//db.SetMaxOpenConns(1)
 	checkErr(err)
-	rows, err := db.Query("SELECT quantity from food where food_name='" + food + "'")
+	stmt, err := db.Prepare("INSERT INTO orders(username, food_name,quantity) values(?,?,?)")
 	checkErr(err)
-	var q int
-	if !rows.Next() {
-		return "food doesn't exist"
-	} else {
-		rows, err := db.Query("SELECT quantity from food where food_name='" + food + "'")
-		checkErr(err)
-		for rows.Next() {
-			err = rows.Scan(&q)
-		}
-		checkErr(err)
-		if q < quantity {
-			return "food quantity not enough"
-		} else {
-			q = q - quantity
-		}
-	}
+	//time.Sleep(5 * time.Second)
 
-	rows, err = db.Query("Select username from userinfo where username='" + username + "'")
-	defer rows.Close()
+	res, err := stmt.Exec(global_username, "Ribs with brown sause", 1)
 	checkErr(err)
-	if !rows.Next() {
-		return "user doesn't exist"
-	} else {
-		defer rows.Close()
-		stmt, err := db.Prepare("INSERT INTO orders(username, food_name,quantity) values(?,?,?)")
-		checkErr(err)
-		//time.Sleep(5 * time.Second)
+	res, err = stmt.Exec(global_username, "Brased Pork in brown sause", 1)
+	checkErr(err)
+	affect, err := res.RowsAffected()
+	checkErr(err)
+	fmt.Println(affect)
 
-		res, err := stmt.Exec(username, food, quantity)
-		checkErr(err)
-
-		stmt, err = db.Prepare("update food set quantity=? where food_name=?")
-		checkErr(err)
-		res, err = stmt.Exec(q, food)
-		checkErr(err)
-		affect, err := res.RowsAffected()
-		checkErr(err)
-		fmt.Println(affect)
-	}
 	return "successfully ordered"
 }
 
-func prev_orders(username string) int {
+func prev_orders() int {
 	db, err := sql.Open("sqlite3", "CRUDtest.db")
 	//db.SetMaxOpenConns(1)
 	checkErr(err)
-	rows, err := db.Query("SELECT quantity from orders where username='" + username + "'")
+	rows, err := db.Query("SELECT quantity from orders where username='" + global_username + "'")
 	checkErr(err)
 	count := 0
 	if !rows.Next() {
 		return 0
 	} else {
-		rows, err := db.Query("SELECT quantity from orders where username='" + username + "'")
+		rows, err := db.Query("SELECT quantity from orders where username='" + global_username + "'")
 		checkErr(err)
 		for rows.Next() {
 			count = count + 1
@@ -211,18 +177,9 @@ func order_food(username string) string {
 	return "Success"
 }
 
-func user_info() (string, string) {
+func user_info() string {
 	if global_username == "" {
-		return "please login first", "plz"
+		return "please login first"
 	}
-	db, err := sql.Open("sqlite3", "CRUDtest.db")
-	checkErr(err)
-	rows, err := db.Query("SELECT username,password FROM userinfo where username=" + "'" + global_username + "'")
-	var temp1 string
-	var temp2 string
-	var temp3 string
-	var temp4 string
-	err = rows.Scan(&temp1, &temp2, &temp3, &temp4)
-	checkErr(err)
-	return global_username, temp4
+	return global_username
 }

@@ -81,5 +81,8 @@ personal page data query from database complete
 
 Description
 This is a ordering system for people dine in resturants. There is register, login function to the system. Users can order food and view previous orders from their home pages.
-[API document](https://github.com/Zhuyuze/SE_Project/blob/main/API.md)
-
+[API document](https://github.com/Zhuyuze/SE_Project/blob/main/API.md) \
+videos \
+[function](https://github.com/Zhuyuze/SE_Project/blob/main/function.mp4)\
+[unit test](https://github.com/Zhuyuze/SE_Project/blob/main/unit_test.mp4)\
+[cypress](https://github.com/Zhuyuze/SE_Project/blob/main/cypress.mp4)

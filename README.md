@@ -68,4 +68,18 @@ Customer page and cart page complete
 Adding cart and personal page code for back end
 query from database and respond to front end request
 
+### Sprint 4
+
+#### Front-end
+
+Order page complete
+
+#### Back-end
+
+Ordering function complete
+personal page data query from database complete
+
+Description
+This is a ordering system for people dine in resturants. There is register, login function to the system. Users can order food and view previous orders from their home pages.
+[API document](https://github.com/Zhuyuze/SE_Project/blob/main/API.md)
 
